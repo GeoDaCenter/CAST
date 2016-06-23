@@ -10,12 +10,21 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-72724100-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
     <section class="page-header">
       <h1 class="project-name">CAST</h1>
       <h2 class="project-tagline">A Python Software for Space-Time Analytics</h2>
       <a href="https://github.com/GeoDaCenter/CAST" class="btn">View on GitHub</a>
-      <a href="https://github.com/GeoDaCenter/CAST/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/GeoDaCenter/CAST/tarball/master" class="btn">Download .tar.gz</a>
+      <a href="https://geodacenter.org/downloads/unprotected/CAST_setup.exe" class="btn"  onclick="ga('send', 'event', 'CASTWindows', 'GeoDaDownload', 'CAST Software Downloads Count for Windows');">Download</a>
+      <a href="https://geodacenter.asu.edu/drupal_files/CAST_HowToGuide.pdf" class="btn" onclick="ga('send', 'event', 'CASTManu', 'GeoDaDownload', 'CAST Manuscript Downloads Count');">Manuscript</a>
+      <a href="https://github.com/orgs/GeoDaCenter/people" class="btn">Team</a>
     </section>
 
     <section class="main-content">
@@ -25,48 +34,116 @@
 <p>CAST is a free and open-source cross-platform program (Windows, Mac OSX and Linux) designed to detect spatial patterns and trends in Space-Time data. The idea is to
 make it easy to represent different dimensions and contexts of Space-Time data (e.g. crime data) in views such as maps, graphs, and calendars that can be
 animated over time.
-Like it's predecessor software [GeoDa](http://geodacenter.github.io/), CAST provides a user-friendly and graphical interface to methods of exploratory spatial data analysis (ESDA) on Space-Time data.
-All of these views are linked to allow analysts to identify how selected
-subsets of the data, such as particular beats, are characterized across these dimensions.
-Using statistical significance tests, CAST includes several cluster maps and trend graphs to
-detect where concentrations of crimes are higher or lower than expected.</p>
+</p>
+<p style="text-align: center;">
+<img src="img/cast_intro1.png" style="max-width:406px; width:100%;">
+</p>
+
 
 <p>
-  The program runs on three operating systems: Windows, MacOSX and Linux (Figure 1).
-It is designed as a user-friendly interface to [PySAL](http://pysal.github.io), the spatial analysis library developed at
+  The program runs on three operating systems: Windows, MacOSX and Linux.
+It is designed as a user-friendly interface to <a href="http://pysal.github.io">PySAL</a>, the spatial analysis library developed at
 the GeoDa Center in Python that serves as the code base for its functionality.
-
+</p>
+<p>
 The interface of CAST is very similar to old version of GeoDa, but GeoDa is designed for the analysis of one area-level
 dataset at a time while CAST can display multiple shapefiles simultaneously as layers in
 one view and/or as separate views. Like GeoDa, CAST reads so-called shapefiles, the
 geographic file format related to ESRI’s ArcGIS software, the most widely used commercial
 Geographic Information System (GIS).
-
-<img src="img/cast_intro1.png">
 </p>
 
 <h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>What you will need...</a></h3>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+<p>
+ If all you have is a *.csv, you can use <a href="http://geodacenter.github.io/download.html">GeoDa software</a> to create a ESRI shapefile file and save it for importing into CAST. There is sample data from San Francisco available here.
+</p>
+
+<p>
+CAST allows analysts to aggregate point data on the fly to areas and to specified time periods (and to save the space- and time-aggregated data as a new dbf file). To analyze spatial data over time, a date field needs to be specified. For point shapefiles, each record will have a time stamp, often with the date and time (for the San Francisco sample data, use the Date and Time fields). You can specify custom formats for these date and time fields in CAST but for automatic detection of the date field, it is easiest to have a separate field for the date and time of an event. For instance, if the data field is recorded as ’05/01/2011 00:00:00’, then analysts should turn this into two separate fields such as date = ’05/01/2011’ and time = ’00:00:00’, before loading the data into CAST. For polygon shapefiles without point data, crimes need to already be aggregated for specific time periods (one period per column).
+</p>
+
+<h3>CAST can do a lot!</h3>
+
+
+<p>Like it's predecessor software <a href="http://geodacenter.github.io/">GeoDa</a>, CAST provides a user-friendly and graphical interface to methods of exploratory spatial data analysis (ESDA) on Space-Time data.
+All of these views are linked to allow analysts to identify how selected
+subsets of the data, such as particular beats, are characterized across these dimensions.
+Using statistical significance tests, CAST includes several cluster maps and trend graphs to
+detect where concentrations of crimes are higher or lower than expected.
+</p>
 
 <h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Multi-layers in CAST</a></h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+As is common in Geographic Information Systems, CAST allows analysts to load multiple layers in one view. Figure below shows examples of how multiple layers can be used in CAST, for instance, to display incidents of robberies with percentile maps, heatmaps, and cluster maps.
+
+<p style="text-align: center;">
+<img src="img/multiplelayers.png" style="max-width:406px; width:100%;">
+</p>
 
 <h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Maps and Graphs</a></h3>
 
-<p>You can <a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-users-and-teams" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>
+  Figure below shows the settings and results for a heatmap where all crime incidents are pooled across time. The interface for dynamic cluster maps contains a series of micromaps for each specified time period (such as 1-month intervals) below a larger map of the respective time period that is highlighted in the micromaps. The micromaps can be displayed or hidden by right-clicking on the main map. Further, the animation can be started, paused and stopped through the controls in the toolbar for all dynamic maps and graphs (including calendar maps and trend graphs).
+</p>
+<p style="text-align: center;">
+<img src="img/heatmaps2.png" style="max-width:406px; width:100%;">
+</p>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Calendar Maps and Graphs</a></h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<p>
+  In calendar maps, two monthly calendar views are integrated with a regular CAST map view: Micro calendars from January to December and enlarged versions of two months that correspond to a selection of months in the micro calendars. The days in the two calendars are color-coded based on the number of crimes (events) that occurred on each day, with lighter green colors for smaller frequencies and darker green shading for larger ones. In addition, the enlarged two-month calendar also includes the date and frequency count for each day. Finally, bar charts on the vertical axis of the calendar summarize the number of crimes for each week while bar charts on the horizontal axis display the sum of crimes for each day of the week.
+</p>
+
+<p style="text-align: center;">
+<img src="img/calendarmap.png" style="max-width:406px; width:100%;">
+</p>
+
+<p>
+  In the dynamic version of the calendar map each day in the enlarged calendars is highlighted sequentially and the corresponding points for this day are displayed on the map.
+</p>
+
+<h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Trend Graphs</a></h3>
+
+<p>
+To track frequencies of crime over time, CAST includes three types of trend graphs: 1) a stand-alone static trend graph with crime counts on the vertical axis and time periods on the horizontal axis, 2) a dynamic trend graph that integrates this stand-alone trend graph with a map view, and 3) a significant trend graph that highlights statistically significant time runs within the time series associated with an area.
+</p>
+
+<p style="text-align: center;">
+<img src="img/trendgraph.png" style="max-width:406px; width:100%;">
+</p>
+<p style="text-align: center;">
+<img src="img/trendgraph2.png" style="max-width:406px; width:100%;">
+</p>
+
+<h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Cluster Maps</a></h3>
+
+<p>
+  CAST contains two types of cluster maps for area data that are based on statistical tests: local Moran’s I and local G statistics. The local Moran’s I test that the Local Indicators of Spatial Association (LISA) maps are based on assesses to what extent values in one area are similar to the average value of neighboring areas. The LISA map displays four significant options: <font color="red">Hotspots</font> (high values in a given area surrounded by high values in a neighboring area), <font color="blue">coldspots</font> (low area values near low neighboring values), and two so-called spatial outliers (low values surrounded by high and vice versa).
+</p>
+
+<p style="text-align: center;">
+<img src="img/dynamicLISA.png" style="max-width:406px; width:100%;">
+</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Team</h3>
+
+<p></p>
+
+<h3>
+<a id="intro-contact" class="anchor" href="#intro-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h3>
+<p>Questions? Contact <a href="mailto:geodacenter@asu.edu">us</a>.</p>
 
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/GeoDaCenter/CAST">CAST</a> is maintained by <a href="https://github.com/GeoDaCenter">GeoDaCenter</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/GeoDaCenter/CAST">CAST</a> is maintained by <a href="https://github.com/lixun910">@lixun910</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
