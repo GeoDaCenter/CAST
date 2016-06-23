@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<resource>
+  <object class="wxToolBar" name="ToolBar">
+    <object class="tool" name="ID_OPEN_SHAPE_FILE">
+      <bitmap>ToolBar-open-folder.png</bitmap>
+      <bitmap2>ToolBar-open-folder_disabled.png</bitmap2>
+      <tooltip>Open Project</tooltip>
+    </object>
+    <object class="tool" name="ID_CLOSE_ALL">
+      <bitmap>ToolBar-close-folder.png</bitmap>
+      <bitmap2>ToolBar-close-folder_disabled.png</bitmap2>
+      <tooltip>Close All</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="IDM_TABLE">
+      <bitmap>ToolBarBitmaps_18.png</bitmap>
+      <bitmap2>ToolBarBitmaps_18.png</bitmap2>
+      <tooltip>Open Table</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_TOOLS_WEIGHTS_CREATE">
+      <bitmap>ToolBarBitmaps_4.png</bitmap>
+      <bitmap2>ToolBarBitmaps_4_disabled.png</bitmap2>
+      <tooltip>Create weights</tooltip>
+    </object>
+    <object class="tool" name="ID_TOOLS_WEIGHTS_CHAR">
+      <bitmap>ToolBarBitmaps_5.png</bitmap>
+      <bitmap2>ToolBarBitmaps_5_disabled.png</bitmap2>
+      <tooltip>Weight neighbors histogram</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_MAP_CHOICES">
+      <bitmap>ToolBarBitmaps_MapChoices.png</bitmap>
+      <bitmap2>ToolBarBitmaps_MapChoices_disabled.png</bitmap2>
+      <tooltip>Maps and Smoothing</tooltip>
+    </object>
+    <object class="tool" name="ID_NEW_MAP_WINDOW">
+      <bitmap>ToolBarBitmaps_9.png</bitmap>
+      <bitmap2>ToolBarBitmaps_9_disabled.png</bitmap2>
+      <tooltip>New Map Window</tooltip>
+    </object>
+    <object class="tool" name="ID_MAPANALYSIS_MAPMOVIE">
+      <bitmap>ToolBarBitmaps_32.png</bitmap>
+      <bitmap2>ToolBarBitmaps_32_disabled.png</bitmap2>
+      <tooltip>Map Movie (cumulative selection)</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_DENSITY_MAP">
+      <bitmap>ToolBar-density_map.png</bitmap>
+      <tooltip>Density Map</tooltip>
+    </object>
+    <object class="tool" name="ID_CALENDAR_MAP">
+      <bitmap>ToolBar_calendar.png</bitmap>
+      <bitmap2>ToolBar_calendar.png</bitmap2>
+      <tooltip>Calendar Map</tooltip>
+    </object>
+    <object class="tool" name="ID_TREND_GRAPH">
+      <bitmap>ToolBar-trend_graph.png</bitmap>
+      <tooltip>Trend Graph</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="IDM_BOX">
+      <bitmap>ToolBarBitmaps_14.png</bitmap>
+      <bitmap2>ToolBarBitmaps_14_disabled.png</bitmap2>
+      <tooltip>Box Plot</tooltip>
+    </object>
+    <object class="tool" name="IDM_HIST">
+      <bitmap>ToolBarBitmaps_12.png</bitmap>
+      <bitmap2>ToolBarBitmaps_12_disabled.png</bitmap2>
+      <tooltip>Histogram</tooltip>
+    </object>
+    <object class="tool" name="IDM_SCATTERPLOT">
+      <bitmap>ToolBarBitmaps_13.png</bitmap>
+      <bitmap2>ToolBarBitmaps_13_disabled.png</bitmap2>
+      <tooltip>Scatter Plot</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="IDM_UNI_LISA">
+      <bitmap>ToolBarBitmaps_22.png</bitmap>
+      <bitmap2>ToolBarBitmaps_22_disabled.png</bitmap2>
+      <tooltip>Univariate LISA</tooltip>
+    </object>
+    <margins>1,1</margins>
+    <style>wxTB_FLAT|wxTB_NODIVIDER</style>
+    <object class="tool" name="ID_UNI_DYNAMIC_LISA">
+      <bitmap>ToolBar-Dynamic_LISA.png</bitmap>
+      <tooltip>Dynamic LISA</tooltip>
+    </object>
+  </object>
+  <object class="wxToolBar" name="ToolBar2">
+    <object class="tool" name="ID_CD_ROM">
+      <bitmap stock_id="wxART_CDROM"/>
+      <tooltip>CD ROM</tooltip>
+    </object>
+    <object class="tool" name="ID_FLOPPY">
+      <bitmap stock_id="wxART_FLOPPY"/>
+    </object>
+    <bitmapsize>16,15</bitmapsize>
+    <margins>2,2</margins>
+    <style>wxTB_FLAT|wxTB_NODIVIDER</style>
+    <object class="tool" name="ID_EXPORT_MEAN_CENTERS">
+      <bitmap>ToolBarBitmaps_36.png</bitmap>
+      <bitmap2>ToolBarBitmaps_36_disabled.png</bitmap2>
+      <tooltip>Export Mean Centers</tooltip>
+    </object>
+    <object class="tool" name="ID_EXPORT_CENTROIDS">
+      <bitmap>ToolBarBitmaps_2.png</bitmap>
+      <bitmap2>ToolBarBitmaps_2_disabled.png</bitmap2>
+      <tooltip>Export Centroids</tooltip>
+    </object>
+    <object class="tool" name="ID_TOOLS_WEIGHTS_OPEN">
+      <bitmap>ToolBarBitmaps_3.png</bitmap>
+      <bitmap2>ToolBarBitmaps_3_disabled.png</bitmap2>
+      <tooltip>Select Weight</tooltip>
+    </object>
+    <object class="tool" name="ID_SHOW_CONVERTED_FEATURES">
+      <bitmap>ToolBarBitmaps_6.png</bitmap>
+      <bitmap2>ToolBarBitmaps_6_disabled.png</bitmap2>
+      <tooltip>Show Converted Features</tooltip>
+    </object>
+    <object class="tool" name="ID_SET_DEFAULT_VARIABLE_SETTINGS">
+      <bitmap>ToolBarBitmaps_10.png</bitmap>
+      <bitmap2>ToolBarBitmaps_10_disabled.png</bitmap2>
+      <tooltip>Default Variable Settings</tooltip>
+    </object>
+  </object>
+  <object class="wxToolBar" name="ToolBar3">
+    <object class="tool" name="ID_HELP">
+      <bitmap stock_id="wxART_HELP_BOOK"/>
+    </object>
+    <bitmapsize>16,16</bitmapsize>
+    <margins>2,2</margins>
+    <style>wxTB_NODIVIDER</style>
+  </object>
+  <object class="wxToolBar" name="ToolBar_MAP">
+    <bitmapsize>16,16</bitmapsize>
+    <margins>1,1</margins>
+    <object class="tool" name="ID_ADD_MAP_LAYER">
+      <bitmap>ToolBarBitmaps_7.png</bitmap>
+      <tooltip>add layer</tooltip>
+    </object>
+    <object class="tool" name="ID_REMOVE_MAP_LAYER">
+      <bitmap>ToolBarBitmaps_8.png</bitmap>
+      <tooltip>remove layer</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="IDM_TABLE">
+      <bitmap>ToolBarBitmaps_18.png</bitmap>
+      <bitmap2>ToolBarBitmaps_18_disabled.png</bitmap2>
+      <tooltip>Open Table</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_SELECT_LAYER">
+      <bitmap>ToolBar_select.gif</bitmap>
+      <tooltip>select</tooltip>
+    </object>
+    <object class="tool" name="ID_PAN_LAYER">
+      <bitmap>ToolBar_hand.png</bitmap>
+      <tooltip>pan</tooltip>
+    </object>
+    <object class="tool" name="ID_ZOOM_LAYER">
+      <bitmap>ToolBar_zoom.png</bitmap>
+      <tooltip>zoom in/out</tooltip>
+    </object>
+    <object class="tool" name="ID_EXTENT_LAYER">
+      <bitmap>ToolBar_extent.png</bitmap>
+      <tooltip>extent</tooltip>
+    </object>
+    <object class="tool" name="ID_REFRESH_LAYER">
+      <bitmap>ToolBar_refresh.png</bitmap>
+      <tooltip>refresh</tooltip>
+    </object>
+    <object class="tool" name="ID_BRUSH_LAYER">
+      <bitmap>ToolBar_brush.png</bitmap>
+      <tooltip>brushing</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_EXPORT_MAP">
+      <bitmap>ToolBar_export.png</bitmap>
+      <tooltip>export</tooltip>
+    </object>
+  </object>
+  <object class="wxToolBar" name="ToolBar_ANIMATE_MAP">
+    <bitmapsize>16,16</bitmapsize>
+    <margins>1,1</margins>
+    <object class="tool" name="ID_ADD_MAP_LAYER">
+      <bitmap>ToolBarBitmaps_7.png</bitmap>
+    </object>
+    <object class="tool" name="ID_REMOVE_MAP_LAYER">
+      <bitmap>ToolBarBitmaps_8.png</bitmap>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="IDM_TABLE">
+      <bitmap>ToolBarBitmaps_18.png</bitmap>
+      <bitmap2>ToolBarBitmaps_18_disabled.png</bitmap2>
+      <tooltip>Open Table</tooltip>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_SELECT_LAYER">
+      <bitmap>ToolBar_select.gif</bitmap>
+      <tooltip>select</tooltip>
+    </object>
+    <object class="tool" name="ID_PAN_LAYER">
+      <bitmap>ToolBar_hand.png</bitmap>
+      <tooltip>pan</tooltip>
+    </object>
+    <object class="tool" name="ID_ZOOM_LAYER">
+      <bitmap>ToolBar_zoom.png</bitmap>
+    </object>
+    <object class="tool" name="ID_EXTENT_LAYER">
+      <bitmap>ToolBar_extent.png</bitmap>
+    </object>
+    <object class="tool" name="ID_REFRESH_LAYER">
+      <bitmap>ToolBar_refresh.png</bitmap>
+    </object>
+    <object class="tool" name="ID_BRUSH_LAYER">
+      <bitmap>ToolBar_brush.png</bitmap>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_EXPORT_MAP">
+      <bitmap>ToolBar_export.png</bitmap>
+    </object>
+    <object class="separator"/>
+    <object class="tool" name="ID_PLAY">
+      <bitmap>ToolBar_play.png</bitmap>
+    </object>
+    <object class="tool" name="ID_PAUSE">
+      <bitmap>ToolBar_pause.png</bitmap>
+    </object>
+    <object class="tool" name="ID_STOP">
+      <bitmap>ToolBar_stop.png</bitmap>
+    </object>
+    <object class="separator"/>
+    <object class="wxStaticText" name="ID_ANIMATE_START_LABEL">
+      <label>12/12/1900</label>
+      <style>wxTRANSPARENT_WINDOW|wxALIGN_RIGHT</style>
+    </object>
+    <object class="wxSlider" name="ID_ANIMATE_SLIDER">
+      <size>120,-1</size>
+      <style>wxNO_BORDER|wxTRANSPARENT_WINDOW|wxSL_AUTOTICKS</style>
+    </object>
+    <object class="wxStaticText" name="ID_ANIMATE_END_LABEL">
+      <label>12/12/1900</label>
+      <style>wxALIGN_LEFT</style>
+    </object>
+    <object class="separator"/>
+    <object class="wxStaticText" name="ID_ANIMATE_CURRENT_LABEL">
+      <label>current: 00 (00-month period)</label>
+    </object>
+  </object>
+</resource>

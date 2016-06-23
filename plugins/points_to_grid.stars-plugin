@@ -1,0 +1,9 @@
+[Core]
+Name = Points to Grid Plugin
+Module = points_to_grid
+
+[Documentation]
+Author = Xun Li
+Version = 0.1
+Website = http://test.com
+Description = My first plugin

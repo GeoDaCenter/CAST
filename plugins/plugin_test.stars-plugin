@@ -1,0 +1,9 @@
+[Core]
+Name = Plugin 1
+Module = plugin_test
+
+[Documentation]
+Author = Xun Li
+Version = 0.1
+Website = http://test.com
+Description = My first plugin

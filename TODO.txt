@@ -1,0 +1,13 @@
+OK 0. Enhancement: re-organize code, add plugins framework
+OK 1. Bug: lower strip subviews in windows 7 looks different with other platforms
+WO 2. Bug: Selection/Linking in DBF table works not correctly
+OK 3. Enhancement: support "pure label" tree node in tree_list ctrl
+OK 4. Enhancement: add unique values classify maps
+5. Enhancement: add c++ wrapper for classify maps
+ON 6. Enhancement: panning in dyanmic maps causes "bad-looking" lower strip subviews.
+ON 7. Enhancement: remove slider bar in dynamic widget, add "mouse panning" of lower strip subviews
+OK 8. Enhancement: add dynamic calendar map
+9. Enhanc
+ement: first column(ID) in DBF table view is confusing. Follow OG style
+10.Enhancement: re-organize "export gif/to dbf" functions
+11.Enhancement: add dynamic version for box-plot, histogram, scatter-plot
