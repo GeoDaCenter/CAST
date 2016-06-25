@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>CAST by GeoDaCenter</title>
+    <title>CAST by the Center for Spatial Data Science</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -20,20 +20,17 @@ ga('send', 'pageview');
 <!-- End Google Analytics -->
     <section class="page-header">
       <h1 class="project-name">CAST</h1>
-      <h2 class="project-tagline">A Python Software for Space-Time Analytics</h2>
-      <a href="https://github.com/GeoDaCenter/CAST" class="btn">View on GitHub</a>
+      <h2 class="project-tagline">Software for Exploratory Space-Time Analytics</h2>
       <a href="https://geodacenter.org/downloads/unprotected/CAST_setup.exe" class="btn"  onclick="ga('send', 'event', 'CASTWindows', 'GeoDaDownload', 'CAST Software Downloads Count for Windows');">Download</a>
-      <a href="https://geodacenter.asu.edu/drupal_files/CAST_HowToGuide.pdf" class="btn" onclick="ga('send', 'event', 'CASTManu', 'GeoDaDownload', 'CAST Manuscript Downloads Count');">Manuscript</a>
-      <a href="https://github.com/orgs/GeoDaCenter/people" class="btn">Team</a>
+      <a href="https://github.com/GeoDaCenter/CAST" class="btn">View on GitHub</a>
+      <a href="https://geodacenter.asu.edu/drupal_files/CAST_HowToGuide.pdf" class="btn" onclick="ga('send', 'event', 'CASTManu', 'GeoDaDownload', 'CAST Manuscript Downloads Count');">Documentation</a>
     </section>
 
     <section class="main-content">
       <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introducing CAST 0.1 Alpha</h3>
 
-<p>CAST is a free and open-source cross-platform program (Windows, Mac OSX and Linux) designed to detect spatial patterns and trends in Space-Time data. The idea is to
-make it easy to represent different dimensions and contexts of Space-Time data (e.g. crime data) in views such as maps, graphs, and calendars that can be
-animated over time.
+<p>CAST is a free and open-source, cross-platform program (Windows, Mac OSX and Linux) designed to detect spatial patterns and trends for event and area data. The idea is to make it easy to represent different dimensions and contexts of space-time data (such as crime data) in views such as maps, graphs, and calendars that can be animated over time.
 </p>
 <p style="text-align: center;">
 <img src="img/cast_intro1.png" style="max-width:406px; width:100%;">
@@ -41,43 +38,35 @@ animated over time.
 
 
 <p>
-  The program runs on three operating systems: Windows, MacOSX and Linux.
-It is designed as a user-friendly interface to <a href="http://pysal.github.io">PySAL</a>, the spatial analysis library developed at
-the GeoDa Center in Python that serves as the code base for its functionality.
+  The program runs on three operating systems: Windows, MacOSX and Linux (Windows and Mac OSX are available for download; Linux needs to be compiled from the source code). It is designed as a user-friendly interface to <a href="http://pysal.github.io">PySAL</a>, the spatial analysis library developed by Dr. Serge Rey and colleagues in Python that serves as the code base for its functionality.
 </p>
+
 <p>
-The interface of CAST is very similar to old version of GeoDa, but GeoDa is designed for the analysis of one area-level
-dataset at a time while CAST can display multiple shapefiles simultaneously as layers in
-one view and/or as separate views. Like GeoDa, CAST reads so-called shapefiles, the
-geographic file format related to ESRI’s ArcGIS software, the most widely used commercial
-Geographic Information System (GIS).
+The interface of CAST is similar to GeoDa, but GeoDa is designed for the analysis of one area-level dataset at a time while CAST can display multiple shapefiles simultaneously as layers in one view and/or as separate views. Like GeoDa, CAST reads so-called shapefiles, the geographic file format related to ESRI's ArcGIS software, the most widely used commercial Geographic Information System (GIS).
 </p>
 
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>What you will need...</a></h3>
 
 <p>
- If all you have is a *.csv, you can use <a href="http://geodacenter.github.io/download.html">GeoDa software</a> to create a ESRI shapefile file and save it for importing into CAST. There is sample data from San Francisco available here.
+ If all you have is a *.csv text file with XY coordinates, you can use the <a href="http://geodacenter.github.io/download.html">GeoDa software</a> to create a point shapefile file and save it for import into CAST. For instance, see the sample data from San Francisco available here.
 </p>
 
 <p>
 CAST allows analysts to aggregate point data on the fly to areas and to specified time periods (and to save the space- and time-aggregated data as a new dbf file). To analyze spatial data over time, a date field needs to be specified. For point shapefiles, each record will have a time stamp, often with the date and time (for the San Francisco sample data, use the Date and Time fields). You can specify custom formats for these date and time fields in CAST but for automatic detection of the date field, it is easiest to have a separate field for the date and time of an event. For instance, if the data field is recorded as ’05/01/2011 00:00:00’, then analysts should turn this into two separate fields such as date = ’05/01/2011’ and time = ’00:00:00’, before loading the data into CAST. For polygon shapefiles without point data, crimes need to already be aggregated for specific time periods (one period per column).
 </p>
 
-<h3>CAST can do a lot!</h3>
+<h3>What You Can Do with CAST</h3>
 
 
-<p>Like it's predecessor software <a href="http://geodacenter.github.io/">GeoDa</a>, CAST provides a user-friendly and graphical interface to methods of exploratory spatial data analysis (ESDA) on Space-Time data.
-All of these views are linked to allow analysts to identify how selected
-subsets of the data, such as particular beats, are characterized across these dimensions.
-Using statistical significance tests, CAST includes several cluster maps and trend graphs to
-detect where concentrations of crimes are higher or lower than expected.
+<p>Like its sister software <a href="http://geodacenter.github.io/">GeoDa</a>, CAST provides a user-friendly and graphical interface to methods of exploratory spatial data analysis (ESDA) for space-time data. All ESDA views are linked to allow analysts to explore relationships across these dimensions.
+Using statistical significance tests, CAST includes several cluster maps and trend graphs to detect where concentrations of cevents are higher or lower than expected.
 </p>
 
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Multi-layers in CAST</a></h3>
 
-As is common in Geographic Information Systems, CAST allows analysts to load multiple layers in one view. Figure below shows examples of how multiple layers can be used in CAST, for instance, to display incidents of robberies with percentile maps, heatmaps, and cluster maps.
+As is common in Geographic Information Systems, CAST allows analysts to load multiple layers in one view. The figures below show examples of how multiple layers can be used in CAST, for instance, to display incidents of robberies with percentile maps, heatmaps, and cluster maps.
 
 <p style="text-align: center;">
 <img src="img/multiplelayers.png" style="max-width:406px; width:100%;">
@@ -87,7 +76,7 @@ As is common in Geographic Information Systems, CAST allows analysts to load mul
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Maps and Graphs</a></h3>
 
 <p>
-  Figure below shows the settings and results for a heatmap where all crime incidents are pooled across time. The interface for dynamic cluster maps contains a series of micromaps for each specified time period (such as 1-month intervals) below a larger map of the respective time period that is highlighted in the micromaps. The micromaps can be displayed or hidden by right-clicking on the main map. Further, the animation can be started, paused and stopped through the controls in the toolbar for all dynamic maps and graphs (including calendar maps and trend graphs).
+Below is an example of the settings and results for a heatmap, with crime incidents pooled across time. The interface for dynamic cluster maps contains a series of micromaps for each specified time period (such as 1-month intervals) below a larger map of the respective time period that is highlighted in the micromaps. The micromaps can be displayed or hidden by right-clicking on the main map. Further, the animation across time can be started, paused and stopped through the controls in the toolbar for all dynamic maps and graphs (including calendar maps and trend graphs).
 </p>
 <p style="text-align: center;">
 <img src="img/heatmaps2.png" style="max-width:406px; width:100%;">
@@ -97,7 +86,7 @@ As is common in Geographic Information Systems, CAST allows analysts to load mul
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span>Dynamic Calendar Maps and Graphs</a></h3>
 
 <p>
-  In calendar maps, two monthly calendar views are integrated with a regular CAST map view: Micro calendars from January to December and enlarged versions of two months that correspond to a selection of months in the micro calendars. The days in the two calendars are color-coded based on the number of crimes (events) that occurred on each day, with lighter green colors for smaller frequencies and darker green shading for larger ones. In addition, the enlarged two-month calendar also includes the date and frequency count for each day. Finally, bar charts on the vertical axis of the calendar summarize the number of crimes for each week while bar charts on the horizontal axis display the sum of crimes for each day of the week.
+ Calendar maps integrate two monthly calendar views with a regular CAST map view: Micro calendars from January to December are shown with enlarged versions of two months that correspond to a selection of months in the micro calendars. The days in the two calendars are color-coded based on the number of crimes (events) that occurred on each day, with lighter green colors for smaller frequencies and darker green shading for larger ones. In addition, the enlarged two-month calendar also includes the date and frequency count for each day. Finally, bar charts on the vertical axis of the calendar summarize the number of crimes for each week while bar charts on the horizontal axis display the sum of crimes for each day of the week.
 </p>
 
 <p style="text-align: center;">
@@ -133,14 +122,19 @@ To track frequencies of crime over time, CAST includes three types of trend grap
 <img src="img/dynamicLISA.png" style="max-width:406px; width:100%;">
 </p>
 
+<br/>
 <h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Team</h3>
+<a id="intro-ackn" class="anchor" href="#intro-ackn" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgments</h3>
+<p>The development of GeoDa has been supported by the National Institute of Justice, the National Science Foundation, and the National Institutes of Health.</p>
 
-<p></p>
+<h3>
+<a id="intro-support" class="anchor" href="#intro-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support</h3>
+<p>The <a href="https://geodacenter.asu.edu/support/community">Openspace listserv</a> supports technical questions about CAST.</p>
 
 <h3>
 <a id="intro-contact" class="anchor" href="#intro-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact</h3>
-<p>Questions? Contact <a href="mailto:geodacenter@asu.edu">us</a>.</p>
+<p>Questions? Contact <a href="mailto:spatial@uchicago.edu">us</a>.</p>
+
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/GeoDaCenter/CAST">CAST</a> is maintained by <a href="https://github.com/lixun910">@lixun910</a>.</span>
