@@ -30,13 +30,13 @@ class SigTrendGraphLISA(PlottingCanvas):
             self.cs_data_dict = kwargs["query_data"]
             self.step, self.step_by             = kwargs["step"] ,kwargs["step_by"]
             self.start_date, self.end_date      = kwargs["start"],kwargs["end"]
+            self.lbls = kwargs['lbls']
             self.layer  = layer
             self.data_sel_keys   = sorted(self.cs_data_dict.keys())
             self.data_sel_values = [self.cs_data_dict[i] for i in self.data_sel_keys]
             #self.weight          = pysal.open(self.weight_file).read()
             self.t = len(self.cs_data_dict) # number of data slices
             self.n = len(self.data_sel_values[0]) # number of shape objects
-            
             self.datetime_intervals, self.interval_labels = GetDateTimeIntervals(self.start_date, self.end_date,self.t, self.step, self.step_by)
            
             from stars.core.LISAWrapper import call_lisa
@@ -85,7 +85,7 @@ class SigTrendGraphLISA(PlottingCanvas):
             self.layer      = layer
             self.n          = len(self.data)
             
-            self.title   = "LISA Trend Graph: %s[%s] %s" % (self.layer_name,len(self.timeNeighbors), kwargs["title"])
+            self.title   = "LISA Trend Graph: %s[%s]" % (self.layer_name,len(self.timeNeighbors))
             self.parentFrame.SetTitle = self.title
             self.x_label = ""
             self.y_label = "Number of observations"
@@ -227,8 +227,11 @@ Details: """+str(err.message))
             dc.DrawPolygon([(x,y),(x3,y3),(x4,y4),(x,y)])
             dc.SetBrush(wx.TRANSPARENT_BRUSH)
             dc.SetPen(wx.BLACK_PEN)
-            
-            lbl = "%s-%s"%(self.interval_labels[i-1][0],self.interval_labels[i-1][1])
+           
+            try: 
+                lbl = "%s-%s"%(self.interval_labels[i-1][0],self.interval_labels[i-1][1])
+            except:
+                lbl = "%s" % (self.lbls[i-1])
             lbl_w,lbl_h = dc.GetTextExtent(lbl)
             #dc.DrawText(lbl, vtl_end_x - lbl_w/2.0, vtl_start_y+8)
             dc.DrawRotatedText(lbl, vtl_start_x - lbl_w/1.414, vtl_start_y+lbl_w/1.414+4,45)
@@ -602,12 +605,6 @@ class SigTrendGraphLISAQueryDialog(DynamicLISAQueryDialog):
         if self.query_data == None or len(self.query_data) <= 1:
             self.ShowMsgBox("LISA Trend Graph requires at least 2 time intervals, please reselect step-by parameters.")
             return
-        
-        
-        title = ""
-        if self.query_field.lower() != "all fields":
-            title = "(%s:%s)"%(self.query_field,self.query_range)
-            
         # LISA layer (only one)
         lisa_layer = self.background_shps[self.background_shp_idx]
         gi_widget = PlotWidget(
@@ -620,8 +617,7 @@ class SigTrendGraphLISAQueryDialog(DynamicLISAQueryDialog):
             start= self._wxdate2pydate(self.itv_start_date.GetValue()),
             end= self._wxdate2pydate(self.itv_end_date.GetValue()),
             step_by=self.step_by,
-            step=self.step,
-            title=title
+            step=self.step
             )
         gi_widget.Show()
        
@@ -677,11 +673,9 @@ class SigTrendGraphLISAQueryDialog(DynamicLISAQueryDialog):
                 newDBF.write(newRow)
             newDBF.close()
             
-            self.ShowMsgBox("Query results have been saved to new dbf file",
-                            mtype='CAST Information',
-                            micon=wx.ICON_INFORMATION)
+            self.ShowMsgBox("Query results have been saved to new dbf file",'Info')
         except:
-            self.ShowMsgBox("Saving query results to dbf file failed. Please check if the dbf file already exists.")
+            self.ShowMsgBox("Saving query results to dbf file failed. Please check if the dbf file already exists.","Info")
  
             
 def ShowSigTrendGraphLISA(self):
@@ -721,8 +715,10 @@ def ShowSigTrendGraphLISA(self):
                 dbf = shp.dbf
                 lisa_data_dict = {}
                 count = 0
+                lbls = []
                 for idx in selections:
                     lisa_data_dict[count] = np.array(dbf.by_col(dbf.header[idx]))
+                    lbls.append(dbf.header[idx])
                     count += 1 
                 gi_spacetime_widget= PlotWidget(
                     self, 
@@ -730,6 +726,7 @@ def ShowSigTrendGraphLISA(self):
                     None,
                     SigTrendGraphLISA,
                     query_data = lisa_data_dict,
+                    lbls=lbls,
                     size=(800,650),
                     start=1,
                     end=count-1,

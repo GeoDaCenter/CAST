@@ -33,6 +33,7 @@ class SigTrendGraphLocalG(PlottingCanvas):
             self.cs_data_dict = kwargs["query_data"]
             self.step, self.step_by        = kwargs["step"] ,kwargs["step_by"]
             self.start_date, self.end_date = kwargs["start"],kwargs["end"]
+            self.lbls = kwargs['lbls']
             self.parent = parent
             self.data_sel_keys   = sorted(self.cs_data_dict.keys())
             self.data_sel_values = [self.cs_data_dict[i] for i in self.data_sel_keys]
@@ -56,7 +57,7 @@ class SigTrendGraphLocalG(PlottingCanvas):
             b_gstar, b_binary = choose_local_g_settings(self)
             map_type = 'Gi*' if b_gstar else 'Gi'
             add_type = 'binary' if b_binary else 'row-standardized'
-            self.title = 'Local G (%s,%s) Trend Graph -%s %s' % (map_type,add_type,layer.name,kwargs["title"])
+            self.title = 'Local G (%s,%s) Trend Graph -%s' % (map_type,add_type,layer.name)
             self.parentFrame.SetTitle(self.title)
             
             # calculate Gi using time weights
@@ -253,9 +254,11 @@ class SigTrendGraphLocalG(PlottingCanvas):
             dc.DrawPolygon([(x,y),(x3,y3),(x4,y4),(x,y)])
             dc.SetBrush(wx.TRANSPARENT_BRUSH)
             dc.SetPen(wx.BLACK_PEN)
-            
-            
-            lbl = "%s-%s"%(self.interval_labels[i-1][0],self.interval_labels[i-1][1])
+           
+            try: 
+                lbl = "%s-%s"%(self.interval_labels[i-1][0],self.interval_labels[i-1][1])
+            except:
+                lbl = "%s" % (self.lbls[i-1])
             lbl_w,lbl_h = dc.GetTextExtent(lbl)
             #dc.DrawText(lbl, vtl_end_x - lbl_w/2.0, vtl_start_y+8)
             dc.DrawRotatedText(lbl, vtl_start_x - lbl_w/1.414, vtl_start_y+lbl_w/1.414+4,45)
@@ -589,11 +592,6 @@ class SigTrendGraphLocalGQueryDialog(DynamicLISAQueryDialog):
         if self.query_data == None or len(self.query_data) <= 1:
             self.ShowMsgBox("Local G Trend Graph requires at least 2 time intervals, please reselect step-by parameters.")
             return
-        
-        title = ""
-        if self.query_field.lower() != "all fields":
-            title = "(%s:%s)"%(self.query_field,self.query_range)
-            
         # LISA layer (only one)
         lisa_layer = self.background_shps[self.background_shp_idx]
         gi_widget = PlotWidget(
@@ -606,8 +604,7 @@ class SigTrendGraphLocalGQueryDialog(DynamicLISAQueryDialog):
             start= self._wxdate2pydate(self.itv_start_date.GetValue()),
             end= self._wxdate2pydate(self.itv_end_date.GetValue()),
             step_by=self.step_by,
-            step=self.step,
-            title=title
+            step=self.step
             )
         gi_widget.Show()
        
@@ -664,11 +661,9 @@ class SigTrendGraphLocalGQueryDialog(DynamicLISAQueryDialog):
                 newDBF.write(newRow)
             newDBF.close()
             
-            self.ShowMsgBox("Query results have been saved to new dbf file.",
-                            mtype='CAST Information',
-                            micon=wx.ICON_INFORMATION)
+            self.ShowMsgBox("Query results have been saved to new dbf file.",'Info')
         except:
-            self.ShowMsgBox("Saving query results to dbf file failed! Please check if the dbf file already exists.")
+            self.ShowMsgBox("Saving query results to dbf file failed! Please check if the dbf file already exists.","Info")
  
             
 def ShowSigTrendGraphLocalG(self):
@@ -710,8 +705,10 @@ def ShowSigTrendGraphLocalG(self):
                 dbf = shp.dbf
                 lisa_data_dict = {}
                 count = 0
+                lbls = []
                 for idx in selections:
                     lisa_data_dict[count] = np.array(dbf.by_col(dbf.header[idx]))
+                    lbls.append(dbf.header[idx])
                     count += 1 
                 gi_spacetime_widget= PlotWidget(
                     self, 
@@ -720,6 +717,7 @@ def ShowSigTrendGraphLocalG(self):
                     SigTrendGraphLocalG,
                     #weight = weight_path,
                     query_data = lisa_data_dict,
+                    lbls = lbls,
                     size =stars.MAP_SIZE_MARKOV_LISA,
                     start=1,
                     end=count-1,
