@@ -563,7 +563,7 @@ class KDEConfigDialog(wx.Dialog):
             self.btn_cancel.SetPosition((x+190,y-offset))
         
     def ShowMsgBox(self,msg,mtype='Warning',micon=wx.ICON_WARNING):
-        dlg = wx.MessageDialog(self, msg, mtype, wx.OK|micon)
+        dlg = wx.MessageDialog(None, msg, mtype, wx.OK|micon)
         dlg.ShowModal()
         dlg.Destroy()
         

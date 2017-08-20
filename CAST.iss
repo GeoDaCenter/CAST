@@ -7,9 +7,9 @@
 [Setup]
 AppName=CAST
 AppPublisher=GeoDa Center
-AppPublisherURL=http://geoda.asu.edu/
-AppSupportURL=http://geoda.asu.edu/
-AppUpdatesURL=http://geoda.asu.edu/
+AppPublisherURL=http://spatial.uchicago.edu/
+AppSupportURL=http://spatial.uchicago.edu/
+AppUpdatesURL=http://spatial.uchicago.edu/
 AppSupportPhone=(480)965-7533
 AppVersion=0.99(alpha)
 DefaultDirName={pf}\GeoDa Software
@@ -26,17 +26,17 @@ OutputDir=userdocs:Inno Setup Examples Output
 Name:"{app}\examples"
 
 [Files]
-Source: "CAST.exe"; DestDir: "{app}"
+Source: "dist\CAST.exe"; DestDir: "{app}"
 Source: "Microsoft.VC90.CRT.manifest"; DestDir: "{app}"
 Source: "msvcm90.dll"; DestDir: "{app}"
 Source: "msvcp90.dll"; DestDir: "{app}"
 Source: "msvcr90.dll"; DestDir: "{app}"
-Source: "examples\tempe.shp"; DestDir: "{app}\examples"
-Source: "examples\tempe.dbf"; DestDir: "{app}\examples"
-Source: "examples\tempe.shx"; DestDir: "{app}\examples"
-Source: "examples\beats.shp"; DestDir: "{app}\examples"
-Source: "examples\beats.dbf"; DestDir: "{app}\examples"
-Source: "examples\beats.shx"; DestDir: "{app}\examples"
+;Source: "examples\tempe.shp"; DestDir: "{app}\examples"
+;Source: "examples\tempe.dbf"; DestDir: "{app}\examples"
+;Source: "examples\tempe.shx"; DestDir: "{app}\examples"
+;Source: "examples\beats.shp"; DestDir: "{app}\examples"
+;Source: "examples\beats.dbf"; DestDir: "{app}\examples"
+;Source: "examples\beats.shx"; DestDir: "{app}\examples"
 
 
 ;Source: "Readme.txt"; DestDir: "{app}"; Flags: isreadme

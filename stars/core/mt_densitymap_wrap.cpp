@@ -125,6 +125,7 @@ private:
 #endif
 
 
+#include <cmath>
 /* Python.h has to appear first */
 #include <Python.h>
 

@@ -22,19 +22,19 @@ class DynamicLocalG(ShapeMap):
     """
     def __init__(self, parent, layers, **kwargs):
         ShapeMap.__init__(self,parent, layers)
-        
+
         try:
             self.weight_file  = kwargs["weight"]
             self.cs_data_dict = kwargs["query_data"]
             self.bufferWidth, self.bufferHeight = kwargs["size"]
             self.step, self.step_by        = kwargs["step"] ,kwargs["step_by"]
             self.start_date, self.end_date = kwargs["start"],kwargs["end"]
-            
+
             self.nav_left  = None
             self.nav_right = None
             self.bStrip    = True
-            
-            # preprocessing parameters 
+
+            # preprocessing parameters
             self.parent = parent
             self.layer  = layers[0]
             self.data_sel_keys   = sorted(self.cs_data_dict.keys())
@@ -42,35 +42,36 @@ class DynamicLocalG(ShapeMap):
             self.weight          = pysal.open(self.weight_file).read()
             self.t = len(self.cs_data_dict) # number of data slices
             self.n = len(self.data_sel_values[0]) # number of shape objects
-                        
+
             self.extent = self.layer.extent
             self.view   = View2ScreenTransform(
-                self.extent, 
-                self.bufferWidth, 
+                self.extent,
+                self.bufferWidth,
                 self.bufferHeight - self.bufferHeight/3.0
-                ) 
-          
+                )
+
             self.tick = 0
             self.datetime_intervals, self.interval_labels = GetDateTimeIntervals(self.start_date, self.end_date,self.t, self.step, self.step_by)
             self.setupDynamicControls()
-            self.parentFrame.SetTitle('Local G Map-%s %s' % (self.layer.name,kwargs["title"]))
+            ttl = "" if "title" not in kwargs else kwargs["title"]
+            self.parentFrame.SetTitle('Local G Map-%s %s' % (self.layer.name, ttl))
             self.dynamic_control = DynamicMapControl(self.parentFrame,self.t+1,self.updateDraw)
- 
+
             self.trendgraphWidget = None
             self.popupTrendGraph = None
-            
+
             # preprocessing Gi* SpaceTime maps
             self.processDynamicLocalG()
-            
+
         except Exception as err:
             detail_message = err.message
             if err.message == "dimension mismatch":
                 detail_message = "The number of time intervals doesn't match time weights and space-time query."
             message = """Dynamic Local G map could not be created. Please re-select appropriate parameters and weights file.
-        
+
 Details:""" + detail_message
             self.ShowMsgBox(message)
-            
+
             self.UnRegister()
             if self.trendgraphWidget:
                 self.trendgraphWidget.Close(True)
@@ -80,7 +81,7 @@ Details:""" + detail_message
             if os.name == 'nt':
                 self.Destroy()
             return None
-        
+
     def OnClose(self, event):
         self.UnRegister()
         if self.trendgraphWidget:
@@ -88,7 +89,7 @@ Details:""" + detail_message
         if self.popupTrendGraph:
             self.popupTrendGraph.Close(True)
         event.Skip()
-        
+
     def setupDynamicControls(self):
         """
         assign labels of dynamic controls
@@ -105,15 +106,15 @@ Details:""" + detail_message
             self.parentWidget.label_current.SetLabel('current: %d (%d-%s period)' % (1,self.step, self.step_by))
         except:
             raise Exception("Setup dynamic controls in toolbar failed!")
-            
+
     def processDynamicLocalG(self):
 
         b_gstar, b_binary = choose_local_g_settings(self)
         map_type = 'Gi*' if b_gstar else 'Gi'
         add_type = 'binary' if b_binary else 'row-standardized'
         self.parentFrame.SetTitle('Local G Map (%s,%s)-%s' % (map_type,add_type,self.layer.name))
-        
-        self.space_gstar  = dict() 
+
+        self.space_gstar  = dict()
         self.space_gstar_z= dict()
         for tid,obs in self.cs_data_dict.iteritems():
             y = np.array(obs)
@@ -123,14 +124,14 @@ Details:""" + detail_message
                 lg = pysal.esda.getisord.G_Local(y,self.weight,star=b_gstar,transform='B')
             self.space_gstar[tid]   = lg.p_sim
             self.space_gstar_z[tid] = lg.Zs
-            
+
         trendgraph_data = dict()
         for i in range(self.n):
             data = []
             for j in range(self.t):
                 data.append(self.cs_data_dict[j][i])
             trendgraph_data[i] = data
-        self.trendgraph_data = trendgraph_data 
+        self.trendgraph_data = trendgraph_data
 
         # default color schema for Gi*
         self.HH_color = stars.LISA_HH_COLOR
@@ -140,24 +141,24 @@ Details:""" + detail_message
         color_group =[self.NOT_SIG_color,self.HH_color,self.LL_color]
         label_group = ["Not Significant","High-High","Low-Low"]
         self.color_schema_dict[self.layer.name] = ColorSchema(color_group,label_group)
-        
+
         self.gi_color_group = color_group
-        
+
         self.updateDraw(0)
-        
+
         # Thread-based controller for dynamic LISA
-        self.dynamic_control = DynamicMapControl(self.parentFrame,self.t,self.updateDraw) 
-        
+        self.dynamic_control = DynamicMapControl(self.parentFrame,self.t,self.updateDraw)
+
     def draw_selected_by_ids(self, shape_ids_dict, dc=None):
         super(DynamicLocalG, self).draw_selected_by_ids(shape_ids_dict,dc)
         self.selected_shape_ids = shape_ids_dict
-        
-    def draw_selected_by_region(self,dc, region, 
-                                isEvtResponse=False, 
+
+    def draw_selected_by_region(self,dc, region,
+                                isEvtResponse=False,
                                 isScreenCoordinates=False):
         super(DynamicLocalG, self).draw_selected_by_region(
             dc, region, isEvtResponse, isScreenCoordinates)
-        
+
     def OnSize(self,event):
         """
         overwrite OnSize in ShapeMap.py
@@ -170,10 +171,10 @@ Details:""" + detail_message
                 self.view.pixel_height = self.bufferHeight - self.bufferHeight/3.0
             self.view.pixel_width = self.bufferWidth
             self.view.init()
-        if self.bStrip: 
+        if self.bStrip:
             self.stripBuffer = None
         self.reInitBuffer = True
-        
+
     def OnMotion(self, event):
         """
         """
@@ -184,27 +185,27 @@ Details:""" + detail_message
                 if self.nav_left[0] <= mouse_end_x <= self.nav_left[2] and \
                    self.nav_left[1] <= mouse_end_y <= self.nav_left[3]:
                     return
-            # determine for right 
+            # determine for right
             if self.nav_right:
                 if self.nav_right[0] <= mouse_end_x <= self.nav_right[2] and \
                    self.nav_right[1] <= mouse_end_y <= self.nav_right[3]:
                     return
-        
+
         if event.Dragging() and event.LeftIsDown() and self.isMouseDrawing:
-            x, y = event.GetX(), event.GetY() 
+            x, y = event.GetX(), event.GetY()
             # while mouse is down and moving
             if self.map_operation_type == stars.MAP_OP_PAN:
                 # disable PAN (not support in this version)
                 return
-                          
+
         # give the rest task to super class
         super(DynamicLocalG,self).OnMotion(event)
-        
+
     def Update(self, tick):
         """
         When SLIDER is dragged
         """
-        self.updateDraw(tick)     
+        self.updateDraw(tick)
 
     def updateDraw(self,tick):
         """
@@ -213,32 +214,32 @@ Details:""" + detail_message
         self.tick = tick
         p_values = self.space_gstar[tick]
         z_values = self.space_gstar_z[tick]
-        
+
         # 0 not significant, 6 significant change
         not_sig = list(np.where(p_values>0.05)[0])
         sig     = set(np.where(p_values<=0.05)[0])
         hotspots = list(sig.intersection(set(np.where(z_values>=0)[0])) )
         coldspots = list(sig.intersection(set(np.where(z_values<0)[0])) )
         id_groups = [not_sig,hotspots,coldspots]
-            
+
         self.id_groups = id_groups
         self.draw_layers[self.layer].set_data_group(id_groups)
         self.draw_layers[self.layer].set_fill_color_group(self.gi_color_group)
         edge_clr = self.color_schema_dict[self.layer.name].edge_color
         self.draw_layers[self.layer].set_edge_color(edge_clr)
-        # trigger to draw 
-        self.reInitBuffer = True 
+        # trigger to draw
+        self.reInitBuffer = True
         self.parentWidget.label_current.SetLabel('current: %d (%d-%s period)' % (tick+1,self.step, self.step_by))
-        
+
     def DoDraw(self, dc):
         """
         Overwrite this function from base class for customized drawing
         """
         super(DynamicLocalG, self).DoDraw(dc)
-        
+
         if self.bStrip:
             self.drawStripView(dc)
- 
+
     def OnLeftUp(self, event):
         """ override for click on strip view """
         if self.bStrip:
@@ -249,34 +250,34 @@ Details:""" + detail_message
                    self.nav_left[1] <= mouse_end_y <= self.nav_left[1] + self.nav_left[3]:
                     self.tick = self.tick -1 if self.tick>0 else 0
                     self.updateDraw(self.tick)
-            # determine for right 
+            # determine for right
             if self.nav_right:
                 if self.nav_right[0] <= mouse_end_x <= self.nav_right[0] + self.nav_right[2] and \
                    self.nav_right[1] <= mouse_end_y <= self.nav_right[1] + self.nav_right[3]:
                     self.tick = self.tick +1 if self.tick<=self.n else self.tick
                     self.updateDraw(self.tick)
-            
+
         # give the rest task to super class
         super(DynamicLocalG,self).OnLeftUp(event)
-        
+
     def drawStripView(self,dc):
         """
-        For each Gi map at T_i, two related Gi maps at 
+        For each Gi map at T_i, two related Gi maps at
         T_(i-1) ant T_(i+1) will be displayed in this strip area
         """
         n = len(self.data_sel_keys)
         if n <= 1:
             return
-            
+
         start = self.tick
         if start+1 > n:
             return
         end = start + 2
-        
+
         # flag for drawing navigation arrow
         b2LeftArrow = True if self.tick > 0 else False
         b2RightArrow = True if self.tick < n-2 else False
-        
+
         # at area: 0,self.bufferHeight * 2/3.0
         # draw a light gray area at the bottom first
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
@@ -286,14 +287,14 @@ Details:""" + detail_message
         dc.SetBrush(brush)
         framePos = 0, self.bufferHeight * 2.0/3.0
         dc.DrawRectangle(framePos[0],framePos[1], self.bufferWidth, self.bufferHeight/3.0)
-        
+
         # calculate width and height for each bmp
         bmpFrameWidth = self.bufferWidth / 2.0 # frame is divided into 2 parts
         bmpFrameHeight = self.bufferHeight / 3.0
         bmpWidth = bmpFrameWidth * 0.6
         bmpHeight = bmpFrameHeight * 0.8
-        bmpOffsetX = (bmpFrameWidth - bmpWidth )/2.0 
-        bmpOffsetY = (bmpFrameHeight- bmpHeight)/2.0 
+        bmpOffsetX = (bmpFrameWidth - bmpWidth )/2.0
+        bmpOffsetY = (bmpFrameHeight- bmpHeight)/2.0
 
         # draw text for center large graph
         start_date, end_date = self.datetime_intervals[self.tick]
@@ -305,12 +306,12 @@ Details:""" + detail_message
             info_tip = "t%d - t%d" % (start_date, end_date)
         txt_w,txt_h = dc.GetTextExtent(info_tip)
         dc.DrawText(info_tip, (self.bufferWidth - txt_w)/2, framePos[1] - txt_h)
-        
+
         # draw two related Gi* maps in strip area
         dc.SetBrush(wx.Brush(stars.STRIP_VIEW_MAP_BG_COLOR))
         #for i in range(start, end):
         if self.tick - 1 >= 0:
-            start_pos = bmpOffsetX, framePos[1]+bmpOffsetY 
+            start_pos = bmpOffsetX, framePos[1]+bmpOffsetY
             dc.DrawRectangle(start_pos[0], start_pos[1], bmpWidth, bmpHeight)
             bmp = wx.EmptyBitmapRGBA(
                 bmpFrameWidth, bmpFrameHeight,
@@ -330,9 +331,9 @@ Details:""" + detail_message
                 info_tip = "t%d - t%d" % (start_date, end_date)
             txt_w,txt_h = dc.GetTextExtent(info_tip)
             dc.DrawText(info_tip, start_pos[0] + (bmpWidth - txt_w)/2, start_pos[1]+bmpHeight+2)
-            
+
         if self.tick + 1 < self.t:
-            start_pos = bmpFrameWidth + bmpOffsetX , framePos[1]+bmpOffsetY 
+            start_pos = bmpFrameWidth + bmpOffsetX , framePos[1]+bmpOffsetY
             dc.DrawRectangle(start_pos[0], start_pos[1], bmpWidth, bmpHeight)
             bmp = wx.EmptyBitmapRGBA(
                 bmpFrameWidth, bmpFrameHeight,
@@ -352,10 +353,10 @@ Details:""" + detail_message
                 info_tip = "t%d - t%d" % (start_date, end_date)
             txt_w,txt_h = dc.GetTextExtent(info_tip)
             dc.DrawText(info_tip, start_pos[0] + (bmpWidth - txt_w)/2, start_pos[1]+bmpHeight+2)
-        
+
         # draw navigation arrows
         arrow_y = framePos[1] + bmpFrameHeight/2.0
-        
+
         dc.SetFont(wx.Font(stars.NAV_ARROW_FONT_SIZE, wx.NORMAL, wx.NORMAL, wx.NORMAL))
         dc.SetBrush(wx.Brush(stars.STRIP_VIEW_NAV_BAR_BG_COLOR))
         dc.SetPen(wx.WHITE_PEN)
@@ -366,7 +367,7 @@ Details:""" + detail_message
             dc.DrawText("<<", framePos[0]+3, arrow_y)
         else:
             self.nav_left = None
-            
+
         if b2RightArrow:
             self.nav_right = framePos[0]+self.bufferWidth - 20,framePos[1], 20, self.bufferHeight/3.0
             dc.DrawRectangle(self.nav_right[0], self.nav_right[1], self.nav_right[2], self.nav_right[3])
@@ -374,7 +375,7 @@ Details:""" + detail_message
             dc.DrawText(">>", self.bufferWidth-15, arrow_y)
         else:
             self.nav_right = None
-            
+
     def drawSubGiMap(self, idx, bufferWidth, bufferHeight,bmp):
         """
         Draw two relative Gi* maps for current Gi* map
@@ -383,26 +384,26 @@ Details:""" + detail_message
         dc.SetBrush(wx.WHITE_BRUSH)
         dc.SetPen(wx.TRANSPARENT_PEN)
         dc.DrawRectangle(0,0,bufferWidth,bufferHeight)
-        
+
         if not "Linux" in stars.APP_PLATFORM:
             # not good drawing effect using GCDC in linux
             dc = wx.GCDC(dc)
-        
+
         view = View2ScreenTransform(
-            self.extent, 
-            bufferWidth, 
+            self.extent,
+            bufferWidth,
             bufferHeight
-            ) 
-        
+            )
+
         p_values = self.space_gstar[idx]
         z_values = self.space_gstar_z[idx]
-        
+
         not_sig = list(np.where(p_values>0.05)[0])
         sig     = set(np.where(p_values<=0.05)[0])
         hotspots = list(sig.intersection(set(np.where(z_values>=0)[0])) )
         coldspots = list(sig.intersection(set(np.where(z_values<0)[0])) )
         id_groups = [not_sig,hotspots,coldspots]
-        
+
         from stars.visualization.maps.BaseMap import PolygonLayer
         draw_layer = PolygonLayer(self, self.layer, build_spatial_index=False)
         #edge_clr = wx.Colour(200,200,200, self.opaque)
@@ -410,26 +411,26 @@ Details:""" + detail_message
         draw_layer.set_edge_color(edge_clr)
         draw_layer.set_data_group(id_groups)
         draw_layer.set_fill_color_group(self.gi_color_group)
-        draw_layer.draw(dc, view)        
-        
+        draw_layer.draw(dc, view)
+
         return bmp
-        
+
     def OnRightUp(self,event):
         menu = wx.Menu()
         menu.Append(210, "Select Neighbors", "")
         menu.Append(211, "Cancel Select Neighbors", "")
         #menu.Append(212, "Toggle internal popup window", "")
         #menu.Append(212, "Show external popup time LISA", "")
-        
+
         menu.UpdateUI()
         menu.Bind(wx.EVT_MENU, self.select_by_weights, id=210)
         menu.Bind(wx.EVT_MENU, self.cancel_select_by_weights, id=211)
         #menu.Bind(wx.EVT_MENU, self.showInternalPopupTimeLISA, id=212)
         #menu.Bind(wx.EVT_MENU, self.showExtPopupTimeLISA, id=212)
         self.PopupMenu(menu)
-        
-        event.Skip()     
-        
+
+        event.Skip()
+
 class DynamicLocalGQueryDialog(DynamicLISAQueryDialog):
     """
     """
@@ -440,32 +441,32 @@ class DynamicLocalGQueryDialog(DynamicLISAQueryDialog):
         self.txt_weight_path = wx.TextCtrl(self.panel, -1, "",pos=(x2+100,y2+30), size=(180,-1) )
         #open_bmp = wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR, (16,16))
         open_bmp = wx.BitmapFromImage(stars.OPEN_ICON_IMG)
-        
+
         self.btn_weight_path = wx.BitmapButton(self.panel,-1, open_bmp, pos=(x2+292,y2+32), style=wx.NO_BORDER)
-        
+
         self.Bind(wx.EVT_BUTTON, self.BrowseWeightFile, self.btn_weight_path)
-        
+
     def OnQuery(self,event):
         if self._check_time_itv_input() == False or\
            self._check_weight_path() == False or\
            self._check_space_input() == False:
             return
-        
+
         self.current_selected = range(self.dbf.n_records)
         self._filter_by_query_field()
-        self.query_date = None 
+        self.query_date = None
         self._filter_by_date_interval()
         self._filter_by_tod()
-        
+
         self.query_data = self.gen_date_by_step()
         if self.query_data == None or len(self.query_data) <= 1:
             self.ShowMsgBox("Dynamic Local G Map requires at least 2 time intervals, please reselect step-by parameters.")
             return
-        
+
         title = ""
         if self.query_field.lower() != "all fields":
             title = "(%s:%s)"%(self.query_field,self.query_range)
-            
+
         # LISA layer (only one)
         g_layer = [self.background_shps[self.background_shp_idx]]
         gi_widget = DynamicMapWidget(
@@ -482,38 +483,38 @@ class DynamicLocalGQueryDialog(DynamicLISAQueryDialog):
             title=title
             )
         gi_widget.Show()
-       
+
         # (enable) save LISA Markov to new shp/dbf files
         #self.btn_save.Enable(True)
         #self.lisa_layer = lisa_layer[0]
         #self.lisa_markov_map = gi_widget.map_canvas
-        
-        
+
+
     def OnSaveQueryToDBF(self, event):
         """
         Save Markov type in each interval for each record to dbf file.
         """
         if self.query_data == None:
             return
-        
+
         dlg = wx.FileDialog(
-            self, 
-            message="Save Markov LISA type to new dbf file...", 
-            defaultDir=os.getcwd(), 
-            defaultFile='%s.shp' % (self.lisa_layer.name + '_markov_lisa'), 
-            wildcard="shape file (*.shp)|*.shp|All files (*.*)|*.*", 
+            self,
+            message="Save Markov LISA type to new dbf file...",
+            defaultDir=os.getcwd(),
+            defaultFile='%s.shp' % (self.lisa_layer.name + '_markov_lisa'),
+            wildcard="shape file (*.shp)|*.shp|All files (*.*)|*.*",
             style=wx.SAVE
             )
         if dlg.ShowModal() != wx.ID_OK:
             return
-        
+
         path = dlg.GetPath()
         dbf = self.lisa_layer.dbf
         try:
             n_intervals = self.lisa_markov_map.t -1
             n_objects = len(dbf)
             lisa_markov_mt = self.lisa_markov_map.lisa_markov_mt
-            
+
             newDBF= pysal.open('%s.dbf'%path[:-4],'w')
             newDBF.header = []
             newDBF.field_spec = []
@@ -521,37 +522,37 @@ class DynamicLocalGQueryDialog(DynamicLISAQueryDialog):
                 newDBF.header.append(i)
             for i in dbf.field_spec:
                 newDBF.field_spec.append(i)
-                
+
             for i in range(n_intervals):
                 newDBF.header.append('MARKOV_ITV%d'%(i+1))
                 newDBF.field_spec.append(('N',4,0))
-               
-            for i in range(n_objects): 
+
+            for i in range(n_objects):
                 newRow = []
                 newRow = [item for item in dbf[i][0]]
                 for j in range(n_intervals):
                     move_type = lisa_markov_mt[i][j]
                     newRow.append(move_type)
-                    
+
                 newDBF.write(newRow)
             newDBF.close()
-            
+
             self.ShowMsgBox("Query results have been saved to new dbf file.",
                             mtype='CAST Information',
                             micon=wx.ICON_INFORMATION)
         except:
             self.ShowMsgBox("Saving query results to dbf file failed! Please check if the dbf file already exists.")
- 
-            
+
+
 def ShowDynamicLocalGMap(self):
     # self is Main.py
     if not self.shapefiles or len(self.shapefiles) < 1:
         return
     shp_list = [shp.name for shp in self.shapefiles]
     dlg = wx.SingleChoiceDialog(
-        self, 
-        'Select a POINT or Polygon(with time field) shape file:', 
-        'Dynamic Local G Map', 
+        self,
+        'Select a POINT or Polygon(with time field) shape file:',
+        'Dynamic Local G Map',
         shp_list,
         wx.CHOICEDLG_STYLE)
     if dlg.ShowModal() == wx.ID_OK:
@@ -562,18 +563,18 @@ def ShowDynamicLocalGMap(self):
             # create Dynamic Local G from points
             gi_dlg = DynamicLocalGQueryDialog(
                 self,"Dynamic Local G:" + shp.name,
-                shp, 
+                shp,
                 background_shps=background_shapes,
                 size=stars.DIALOG_SIZE_QUERY_DYNAMIC_LISA
                 )
             gi_dlg.Show()
         elif shp.shape_type == stars.SHP_POLYGON:
-            # bring up a dialog and let user select 
+            # bring up a dialog and let user select
             # the time field in POLYGON shape file
-            dbf_field_list = shp.dbf.header 
+            dbf_field_list = shp.dbf.header
             timedlg = wx.MultiChoiceDialog(
-                self, 'Select TIME fields to generate Dynamic Local G map:', 
-                'DBF fields view', 
+                self, 'Select TIME fields to generate Dynamic Local G map:',
+                'DBF fields view',
                 dbf_field_list
                 )
             if timedlg.ShowModal() == wx.ID_OK:
@@ -584,7 +585,7 @@ def ShowDynamicLocalGMap(self):
                 count = 0
                 for idx in selections:
                     lisa_data_dict[count] = np.array(dbf.by_col(dbf.header[idx]))
-                    count += 1 
+                    count += 1
                 # select weight file
                 wdlg = wx.FileDialog(
                     self, message="Select a weights file",
@@ -595,8 +596,8 @@ def ShowDynamicLocalGMap(self):
                     # todo: select filter
                     weight_path = wdlg.GetPath()
                     gi_spacetime_widget= DynamicMapWidget(
-                        self, 
-                        [shp], 
+                        self,
+                        [shp],
                         DynamicLocalG,
                         weight = weight_path,
                         query_data = lisa_data_dict,
@@ -613,4 +614,4 @@ def ShowDynamicLocalGMap(self):
             self.ShowMsgBox("File type error. Should be a POINT or POLYGON shapefile.")
             dlg.Destroy()
             return
-    dlg.Destroy() 
+    dlg.Destroy()

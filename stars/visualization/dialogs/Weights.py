@@ -381,7 +381,7 @@ class CreatingWeightDlg():
         self.dialog.Bind(wx.EVT_BUTTON, self.OnAddIDVariable, self.btn_add_id_var)
 
     def ShowMsgBox(self,msg,mtype='Warning',micon=wx.ICON_WARNING):
-        dlg = wx.MessageDialog(self, msg, mtype, wx.OK|micon)
+        dlg = wx.MessageDialog(None, msg, mtype, wx.OK|micon)
         dlg.ShowModal()
         dlg.Destroy()
        
