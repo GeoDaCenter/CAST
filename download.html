@@ -12,14 +12,16 @@
 </head>
 
 <body>
-  <!-- Google Analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LC0QJ53WFS"></script>
   <script>
-    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
-    ga('create', 'UA-72724100-1', 'auto');
-    ga('send', 'pageview');
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-LC0QJ53WFS');
   </script>
-  <script async src='https://www.google-analytics.com/analytics.js'></script>
-  <!-- End Google Analytics -->
+  <!-- End Google tag -->
   <section class="page-header">
     <h1 class="project-name">CAST</h1>
     <h2 class="project-tagline">Software for Exploratory Space-Time Analytics</h2>
